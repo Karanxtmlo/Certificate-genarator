@@ -1,13 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Certificate Generator</title>
   <style>
-    body { font-family: Arial, sans-serif; text-align: center; background: #f2f2f2; }
-    .container { margin-top: 20px; }
-    canvas { max-width: 100%; border: 1px solid #ccc; }
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background: #f2f2f2;
+    }
+    .container {
+      margin-top: 20px;
+    }
+    canvas {
+      max-width: 100%;
+    }
     input[type="text"] {
       padding: 10px;
       width: 250px;
@@ -28,12 +36,12 @@
 <body>
   <div class="container">
     <h2>Generate Your Certificate</h2>
-    <input type="text" id="nameInput" placeholder="Enter your name">
-    <br>
+    <input type="text" id="nameInput" placeholder="Enter your name" />
+    <br />
     <button onclick="generateCertificate()">Generate</button>
-    <br><br>
+    <br /><br />
     <canvas id="certificateCanvas" width="994" height="768"></canvas>
-    <br>
+    <br />
     <a id="downloadLink" style="display:none;" download="certificate.png">Download Certificate</a>
   </div>
 
@@ -41,29 +49,44 @@
     const canvas = document.getElementById("certificateCanvas");
     const ctx = canvas.getContext("2d");
     const image = new Image();
+    image.src = "certificate.jpg";
 
-    // Ensure image loads before anything else
-    image.onload = function () {
-      ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
-    };
-    image.src = "./certificate.jpg"; // correct relative path
+    function fitTextToBox(text, maxWidth) {
+      let fontSize = 40;
+      ctx.font = `${fontSize}px Times New Roman`;
+      while (ctx.measureText(text).width > maxWidth && fontSize > 10) {
+        fontSize--;
+        ctx.font = `${fontSize}px Times New Roman`;
+      }
+      return fontSize;
+    }
 
     function generateCertificate() {
       const name = document.getElementById("nameInput").value.trim();
       if (!name) return alert("Please enter a name");
 
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
+      image.onload = () => {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
 
-      // Customize this position based on where name should appear
-      ctx.font = "28px Times New Roman";
-      ctx.fillStyle = "black";
-      ctx.textAlign = "center";
-      ctx.fillText(name, canvas.width / 2, 580); // adjust Y if needed
+        const maxBoxWidth = 600; // Width of the name box in the image
+        const centerX = canvas.width / 2;
+        const centerY = 340; // Y-position where the name should appear in the box
 
-      const link = document.getElementById("downloadLink");
-      link.href = canvas.toDataURL("image/png");
-      link.style.display = "inline";
+        const fontSize = fitTextToBox(name, maxBoxWidth);
+        ctx.font = `${fontSize}px Times New Roman`;
+        ctx.fillStyle = "black";
+        ctx.textAlign = "center";
+        ctx.fillText(name, centerX, centerY);
+
+        const link = document.getElementById("downloadLink");
+        link.href = canvas.toDataURL("image/png");
+        link.download = `${name}_certificate.png`;
+        link.style.display = "inline";
+      };
+
+      // Force reload image if already cached
+      image.src = image.src;
     }
   </script>
 </body>
