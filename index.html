@@ -50,7 +50,7 @@
     const canvas = document.getElementById("certificateCanvas");
     const ctx = canvas.getContext("2d");
     const image = new Image();
-    image.src = "certificate.jpg"; // Make sure this file is in the root directory
+    image.src = "caaea8e1-6513-4ac2-b2d1-f6f996a1771d.png"; // UPDATED FILE NAME
 
     function fitTextToBox(text, maxWidth) {
       let fontSize = 40;
@@ -72,13 +72,13 @@
 
         const maxBoxWidth = 600;
         const centerX = canvas.width / 2;
-        const centerY = 310; // Adjusted for perfect vertical alignment
+        const nameY = 298; // FINE-TUNED POSITION for the name above the line
 
         const fontSize = fitTextToBox(name, maxBoxWidth);
         ctx.font = `${fontSize}px Times New Roman`;
         ctx.fillStyle = "black";
         ctx.textAlign = "center";
-        ctx.fillText(name, centerX, centerY);
+        ctx.fillText(name, centerX, nameY);
 
         const link = document.getElementById("downloadLink");
         link.href = canvas.toDataURL("image/png");
@@ -86,7 +86,7 @@
         link.style.display = "inline";
       };
 
-      // Reload image to ensure it's fresh
+      // Trigger image reload to ensure rendering
       image.src = image.src;
     }
   </script>
