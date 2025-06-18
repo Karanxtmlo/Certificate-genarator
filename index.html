@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Certificate Generator</title>
+  <style>
+    body { font-family: Arial, sans-serif; text-align: center; background: #f2f2f2; }
+    .container { margin-top: 20px; }
+    canvas { max-width: 100%; }
+    input[type="text"] {
+      padding: 10px;
+      width: 250px;
+      font-size: 18px;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 18px;
+      margin-top: 10px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Generate Your Certificate</h2>
+    <input type="text" id="nameInput" placeholder="Enter your name">
+    <br>
+    <button onclick="generateCertificate()">Generate</button>
+    <br><br>
+    <canvas id="certificateCanvas" width="994" height="768"></canvas>
+    <br>
+    <a id="downloadLink" style="display:none;" download="certificate.png">Download Certificate</a>
+  </div>
+
+  <script>
+    const canvas = document.getElementById("certificateCanvas");
+    const ctx = canvas.getContext("2d");
+    const image = new Image();
+    image.src = "certificate.jpg";
+
+    function generateCertificate() {
+      const name = document.getElementById("nameInput").value;
+      if (!name) return alert("Please enter a name");
+
+      image.onload = () => {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
+
+        ctx.font = "28px Times New Roman";
+        ctx.fillStyle = "black";
+        ctx.textAlign = "center";
+        ctx.fillText(name, canvas.width / 2, 220);
+
+        const link = document.getElementById("downloadLink");
+        link.href = canvas.toDataURL();
+        link.style.display = "inline";
+      };
+    }
+  </script>
+</body>
+</html>
