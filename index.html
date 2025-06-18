@@ -15,6 +15,7 @@
     }
     canvas {
       max-width: 100%;
+      border: 1px solid #ccc;
     }
     input[type="text"] {
       padding: 10px;
@@ -49,7 +50,7 @@
     const canvas = document.getElementById("certificateCanvas");
     const ctx = canvas.getContext("2d");
     const image = new Image();
-    image.src = "certificate.jpg";
+    image.src = "certificate.jpg"; // Make sure this file is in the root directory
 
     function fitTextToBox(text, maxWidth) {
       let fontSize = 40;
@@ -69,9 +70,9 @@
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
 
-        const maxBoxWidth = 600; // Width of the name box in the image
+        const maxBoxWidth = 600;
         const centerX = canvas.width / 2;
-        const centerY = 340; // Y-position where the name should appear in the box
+        const centerY = 310; // Adjusted for perfect vertical alignment
 
         const fontSize = fitTextToBox(name, maxBoxWidth);
         ctx.font = `${fontSize}px Times New Roman`;
@@ -85,7 +86,7 @@
         link.style.display = "inline";
       };
 
-      // Force reload image if already cached
+      // Reload image to ensure it's fresh
       image.src = image.src;
     }
   </script>
