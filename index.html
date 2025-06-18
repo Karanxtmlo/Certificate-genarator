@@ -50,7 +50,7 @@
     const canvas = document.getElementById("certificateCanvas");
     const ctx = canvas.getContext("2d");
     const image = new Image();
-    image.src = "caaea8e1-6513-4ac2-b2d1-f6f996a1771d.png"; // UPDATED FILE NAME
+    image.src = "certificate.png"; // ✅ Make sure this file is in the same folder
 
     function fitTextToBox(text, maxWidth) {
       let fontSize = 40;
@@ -72,7 +72,7 @@
 
         const maxBoxWidth = 600;
         const centerX = canvas.width / 2;
-        const nameY = 298; // FINE-TUNED POSITION for the name above the line
+        const nameY = 298; // Adjusted to fit nicely above the line
 
         const fontSize = fitTextToBox(name, maxBoxWidth);
         ctx.font = `${fontSize}px Times New Roman`;
@@ -86,7 +86,7 @@
         link.style.display = "inline";
       };
 
-      // Trigger image reload to ensure rendering
+      // Force reload
       image.src = image.src;
     }
   </script>
