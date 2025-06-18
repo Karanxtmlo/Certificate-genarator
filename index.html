@@ -7,7 +7,7 @@
   <style>
     body { font-family: Arial, sans-serif; text-align: center; background: #f2f2f2; }
     .container { margin-top: 20px; }
-    canvas { max-width: 100%; }
+    canvas { max-width: 100%; border: 1px solid #ccc; }
     input[type="text"] {
       padding: 10px;
       width: 250px;
@@ -18,6 +18,10 @@
       font-size: 18px;
       margin-top: 10px;
       cursor: pointer;
+    }
+    a {
+      display: inline-block;
+      margin-top: 10px;
     }
   </style>
 </head>
@@ -37,25 +41,29 @@
     const canvas = document.getElementById("certificateCanvas");
     const ctx = canvas.getContext("2d");
     const image = new Image();
-    image.src = "certificate.jpg";
+
+    // Ensure image loads before anything else
+    image.onload = function () {
+      ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
+    };
+    image.src = "./certificate.jpg"; // correct relative path
 
     function generateCertificate() {
-      const name = document.getElementById("nameInput").value;
+      const name = document.getElementById("nameInput").value.trim();
       if (!name) return alert("Please enter a name");
 
-      image.onload = () => {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
 
-        ctx.font = "28px Times New Roman";
-        ctx.fillStyle = "black";
-        ctx.textAlign = "center";
-        ctx.fillText(name, canvas.width / 2, 220);
+      // Customize this position based on where name should appear
+      ctx.font = "28px Times New Roman";
+      ctx.fillStyle = "black";
+      ctx.textAlign = "center";
+      ctx.fillText(name, canvas.width / 2, 580); // adjust Y if needed
 
-        const link = document.getElementById("downloadLink");
-        link.href = canvas.toDataURL();
-        link.style.display = "inline";
-      };
+      const link = document.getElementById("downloadLink");
+      link.href = canvas.toDataURL("image/png");
+      link.style.display = "inline";
     }
   </script>
 </body>
